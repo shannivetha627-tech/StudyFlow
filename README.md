@@ -19,6 +19,7 @@ in a personal workspace.
 - Java 21
 - Spring Boot 4.1
 - Spring MVC, Spring Security, Spring Data JPA, and Bean Validation
+- Flyway database migrations
 - Maven
 - H2 for local development; MySQL for deployments
 - HTML, CSS, and vanilla JavaScript
@@ -39,6 +40,8 @@ in a personal workspace.
 ├── database/
 │   ├── database.sql                   Database schema reference
 │   └── migrations/                    Safe, incremental database migrations
+├── Dockerfile                         Production container build
+├── railway.json                       Railway build and health-check settings
 └── frontend/                          HTML, CSS, JavaScript, and app assets
 ```
 
@@ -78,8 +81,20 @@ mvnw.cmd clean test
 - **Production security:** The `prod` profile enables secure session and CSRF cookies
   and disables the H2 console. Use it with `mysql` when serving the application over
   HTTPS.
+- **Railway:** Set `SPRING_PROFILES_ACTIVE=railway`. The `railway` profile group
+  activates `prod` and `mysql`; the app listens on Railway's `PORT`. Add a Railway
+  MySQL service and set `SPRING_DATASOURCE_URL` to
+  `jdbc:mysql://${{MySQL.MYSQLHOST}}:${{MySQL.MYSQLPORT}}/${{MySQL.MYSQLDATABASE}}?serverTimezone=UTC`,
+  `SPRING_DATASOURCE_USERNAME` to `${{MySQL.MYSQLUSER}}`, and
+  `SPRING_DATASOURCE_PASSWORD` to `${{MySQL.MYSQLPASSWORD}}` (replace `MySQL` with the
+  exact Railway service name). Flyway applies the additive initial schema migration;
+  Hibernate validates it and never creates, updates, or drops production tables.
 
 See [backend/DATABASE.md](backend/DATABASE.md) for profile details, data-preservation
 notes, and Web Push configuration. Web Push delivery requires `VAPID_PUBLIC_KEY`,
 `VAPID_PRIVATE_KEY`, and `VAPID_SUBJECT`; keep the private key in a local environment
 or deployment secret store, never in source control.
+
+The local H2 database is not copied to Railway. Keep it untouched locally; migrating
+existing accounts or productivity data requires a separately reviewed and confirmed
+data-transfer procedure.

@@ -33,11 +33,24 @@ file database.
 
 ## MySQL deployment
 
-Activate both the `prod` and `mysql` profiles for an HTTPS deployment. Set
-`SPRING_DATASOURCE_URL`, `SPRING_DATASOURCE_USERNAME`, and
-`SPRING_DATASOURCE_PASSWORD` in the deployment environment; do not put credentials in
-configuration files. Hibernate validates the existing MySQL schema instead of changing
-it. Provision the schema and apply database migrations before deployment.
+Activate the `railway` profile group for Railway, or activate both `prod` and `mysql`
+for another HTTPS deployment. Set `SPRING_DATASOURCE_URL`,
+`SPRING_DATASOURCE_USERNAME`, and `SPRING_DATASOURCE_PASSWORD` in the deployment
+environment; never put credentials in configuration files. On Railway, reference the
+managed MySQL service's `MYSQLHOST`, `MYSQLPORT`, `MYSQLDATABASE`, `MYSQLUSER`, and
+`MYSQLPASSWORD` variables. The application listens on the platform-provided `PORT`.
+
+The MySQL profile uses HikariCP for connection pooling and runs Flyway migrations before
+Hibernate validates the schema. `V1__create_initial_schema.sql` creates the application
+tables and indexes only when absent; it does not truncate, reset, alter, or drop existing
+tables. Existing nonempty MySQL schemas are baseline-marked at version 0 so the additive
+initial migration can run; Hibernate validation then fails startup if an existing table
+is incompatible. Resolve such schema differences with a separately reviewed migration;
+do not disable validation or reset the database.
+
+The existing local H2 database is not imported or modified by deployment. Migrating
+local accounts or productivity records to Railway requires a separate export/import
+plan and explicit confirmation.
 
 Automated tests use an isolated in-memory H2 database and do not write to the development
 database.

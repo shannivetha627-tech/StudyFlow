@@ -1,6 +1,6 @@
 "use strict";
 
-const CACHE_NAME = "studyflow-static-v3";
+const CACHE_NAME = "studyflow-static-v4";
 const APP_SHELL = [
   "/login.html",
   "/register.html",
@@ -44,7 +44,15 @@ self.addEventListener("fetch", (event) => {
 
   if (APP_SHELL.includes(url.pathname)) {
     event.respondWith(
-      caches.match(request).then((cached) => cached || fetch(request))
+      fetch(request).then((response) => {
+        if (!response.ok) {
+          return response;
+        }
+        const cachedResponse = response.clone();
+        return caches.open(CACHE_NAME)
+          .then((cache) => cache.put(request, cachedResponse))
+          .then(() => response);
+      }).catch(() => caches.match(request))
     );
   }
 });

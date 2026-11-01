@@ -1,0 +1,39 @@
+# Maven and Java build output
+**/target/
+**/build/
+**/out/
+*.class
+*.log
+*.tmp
+
+# IDE and editor state
+.idea/
+.vscode/
+*.iml
+
+# Local databases and database sidecar files
+backend/data/*
+!backend/data/.gitkeep
+*.mv.db
+*.trace.db
+*.lock.db
+
+# Local environment and secret material
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+*.jks
+*.keystore
+**/application-local.properties
+**/application-secrets.properties
+**/credentials*
+**/secrets*
+
+# Operating system files
+.DS_Store
+Thumbs.db
+Desktop.ini

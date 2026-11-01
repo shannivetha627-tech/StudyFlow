@@ -1,0 +1,5 @@
+ALTER TABLE IF EXISTS notifications
+    ALTER COLUMN type SET DATA TYPE VARCHAR(30);
+
+DROP TABLE IF EXISTS chat_messages;
+DROP TABLE IF EXISTS chat_conversations;

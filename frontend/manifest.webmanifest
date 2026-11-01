@@ -1,0 +1,19 @@
+{
+  "id": "/",
+  "name": "StudyFlow – Student Productivity & Study Management System",
+  "short_name": "StudyFlow",
+  "description": "StudyFlow – Student Productivity & Study Management System.",
+  "start_url": "/index.html",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#0b0d12",
+  "theme_color": "#0b0d12",
+  "icons": [
+    {
+      "src": "/icons/studyflow.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

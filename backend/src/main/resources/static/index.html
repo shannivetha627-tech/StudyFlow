@@ -1,0 +1,750 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#7c3aed">
+  <meta name="description" content="StudyFlow – Student Productivity &amp; Study Management System">
+  <title>StudyFlow – Student Productivity &amp; Study Management System</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <div class="app-layout">
+    <!-- Sidebar Navigation -->
+    <aside class="app-sidebar" id="app-sidebar" aria-label="Main Navigation">
+      <div class="sidebar-brand">
+        <a class="brand-link" href="#" data-view="dashboard" aria-label="StudyFlow Home">
+          <div class="brand-badge" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+            </svg>
+          </div>
+          <div class="brand-text">
+            <span class="brand-title">StudyFlow</span>
+            <span class="brand-subtitle">Productivity</span>
+          </div>
+        </a>
+      </div>
+
+      <nav class="sidebar-nav">
+        <div class="nav-section-label">WORKSPACE</div>
+        <button class="nav-tab active" type="button" data-view="dashboard" aria-current="page">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/></svg>
+          <span>Dashboard</span>
+        </button>
+        <button class="nav-tab" type="button" data-view="tasks">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+          <span>My Tasks</span>
+          <span class="nav-badge" id="nav-task-count">0</span>
+        </button>
+        <button class="nav-tab" type="button" data-view="assignments">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+          <span>Assignments</span>
+          <span class="nav-badge" id="nav-deadline-count">0</span>
+        </button>
+
+        <div class="nav-section-label">SCHEDULE &amp; TIME</div>
+        <button class="nav-tab" type="button" data-view="planner">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          <span>Study Planner</span>
+          <span class="nav-badge" id="nav-session-count">0</span>
+        </button>
+        <button class="nav-tab" type="button" data-view="calendar">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          <span>Calendar</span>
+        </button>
+        <button class="nav-tab" type="button" data-view="progress">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 20V10M12 20V4M6 20v-6"/></svg>
+          <span>Progress</span>
+        </button>
+
+        <div class="nav-section-label">NOTIFICATIONS &amp; SETTINGS</div>
+        <button class="nav-tab" type="button" data-view="notifications">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+          <span>Notifications</span>
+          <span class="nav-badge danger-badge" id="nav-unread-count">0</span>
+        </button>
+        <button class="nav-tab" type="button" data-view="settings">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+          <span>Profile &amp; Settings</span>
+        </button>
+      </nav>
+
+      <!-- Sidebar User Footer -->
+      <div class="sidebar-footer">
+        <div class="sidebar-user-card" id="sidebar-user-card">
+          <div class="user-avatar" id="sidebar-avatar">S</div>
+          <div class="user-meta">
+            <span class="user-name" id="sidebar-user-name">Student</span>
+            <span class="user-email" id="sidebar-user-email">student@studyflow.edu</span>
+          </div>
+        </div>
+        <button class="logout-btn" id="sidebar-logout-btn" type="button" aria-label="Sign Out">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+          <span>Sign Out</span>
+        </button>
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <div class="app-main">
+      <!-- Top Navigation Header -->
+      <header class="app-topbar">
+        <div class="topbar-left">
+          <button class="mobile-toggle" id="mobile-toggle" type="button" aria-label="Toggle Navigation">
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+          </button>
+          <div class="greeting-box">
+            <h1 class="topbar-greeting" id="topbar-greeting">Welcome to StudyFlow 👋</h1>
+            <p class="topbar-date" id="topbar-date">Loading date…</p>
+          </div>
+        </div>
+
+        <div class="topbar-actions">
+          <button class="action-btn-quiet" id="btn-quick-schedule" type="button" title="Schedule Study Session">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            <span class="desktop-only">Schedule Session</span>
+          </button>
+          <button class="action-btn-primary" id="btn-quick-task" type="button" title="Add New Task">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            <span>+ Add Task</span>
+          </button>
+
+          <!-- Notifications Bell & Menu -->
+          <div class="dropdown-wrapper">
+            <button class="icon-circle-btn" id="btn-bell" type="button" aria-label="Notifications" aria-expanded="false">
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+              <span class="bell-badge" id="topbar-bell-badge" hidden>0</span>
+            </button>
+            <div class="dropdown-panel notifications-dropdown" id="notifications-dropdown" hidden>
+              <div class="dropdown-header">
+                <div class="dropdown-header-title">
+                  <strong>Notifications</strong>
+                  <span class="badge-pill" id="dropdown-unread-count">0 unread</span>
+                </div>
+                <button class="link-btn" id="btn-mark-all-read" type="button">Mark all read</button>
+              </div>
+              <div class="notifications-list" id="dropdown-notifications-list">
+                <p class="dropdown-empty">No unread notifications.</p>
+              </div>
+              <div class="dropdown-footer">
+                <button class="link-btn full-width" type="button" data-view="notifications">View All Notifications</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- User Avatar & Profile Dropdown -->
+          <div class="dropdown-wrapper">
+            <button class="avatar-circle-btn" id="btn-profile-menu" type="button" aria-label="User Profile" aria-expanded="false">
+              <span class="avatar-text" id="topbar-avatar">S</span>
+            </button>
+            <div class="dropdown-panel profile-dropdown" id="profile-dropdown" hidden>
+              <div class="profile-dropdown-user">
+                <strong id="dropdown-user-name">Student</strong>
+                <small id="dropdown-user-email">student@studyflow.edu</small>
+              </div>
+              <hr class="dropdown-divider">
+              <button class="dropdown-item" type="button" data-view="settings">
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                <span>My Profile</span>
+              </button>
+              <button class="dropdown-item" type="button" data-view="settings" data-settings-tab="notifications">
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+                <span>Notification Settings</span>
+              </button>
+              <hr class="dropdown-divider">
+              <button class="dropdown-item danger-item" id="topbar-logout-btn" type="button">
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+                <span>Log Out</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- App Banner Notification / Alert -->
+      <div class="app-toast" id="app-toast" role="status" aria-live="polite" hidden></div>
+
+      <!-- Views Container -->
+      <main class="app-content" id="app-content">
+        <!-- VIEW: DASHBOARD -->
+        <section class="view-panel active" id="view-dashboard" data-panel="dashboard">
+          <!-- Overview Cards (Real data from backend) -->
+          <div class="metrics-grid">
+            <div class="metric-card card-purple">
+              <div class="metric-icon-wrap icon-purple">
+                <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+              </div>
+              <div class="metric-body">
+                <span class="metric-label">TOTAL TASKS</span>
+                <strong class="metric-value" id="stat-total-tasks">0</strong>
+              </div>
+            </div>
+
+            <div class="metric-card card-green">
+              <div class="metric-icon-wrap icon-green">
+                <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+              </div>
+              <div class="metric-body">
+                <span class="metric-label">COMPLETED</span>
+                <strong class="metric-value" id="stat-completed-tasks">0</strong>
+              </div>
+            </div>
+
+            <div class="metric-card card-orange">
+              <div class="metric-icon-wrap icon-orange">
+                <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+              </div>
+              <div class="metric-body">
+                <span class="metric-label">PENDING</span>
+                <strong class="metric-value" id="stat-pending-tasks">0</strong>
+              </div>
+            </div>
+
+            <div class="metric-card card-red">
+              <div class="metric-icon-wrap icon-red">
+                <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+              </div>
+              <div class="metric-body">
+                <span class="metric-label">UPCOMING DEADLINES</span>
+                <strong class="metric-value" id="stat-upcoming-deadlines">0</strong>
+              </div>
+            </div>
+
+            <div class="metric-card card-blue">
+              <div class="metric-icon-wrap icon-blue">
+                <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              </div>
+              <div class="metric-body">
+                <span class="metric-label">TODAY'S STUDY HOURS</span>
+                <strong class="metric-value" id="stat-today-hours">0.0h</strong>
+              </div>
+            </div>
+          </div>
+
+          <!-- Dashboard Main Sections -->
+          <div class="dashboard-columns">
+            <div class="dashboard-col-left">
+              <!-- Today's Study Schedule -->
+              <section class="card-panel">
+                <div class="card-header">
+                  <div>
+                    <h2 class="card-title">Today's Study Schedule</h2>
+                    <p class="card-subtitle" id="dashboard-schedule-sub">Sessions planned for today</p>
+                  </div>
+                  <button class="button-quiet-sm" id="btn-dash-add-session" type="button">+ Schedule</button>
+                </div>
+                <div class="card-content" id="dashboard-today-sessions">
+                  <p class="empty-state-p">No study sessions scheduled for today. Click '+ Schedule' to create one!</p>
+                </div>
+              </section>
+
+              <!-- Upcoming Assignments & Deadlines -->
+              <section class="card-panel">
+                <div class="card-header">
+                  <div>
+                    <h2 class="card-title">Upcoming Deadlines &amp; Assignments</h2>
+                    <p class="card-subtitle">Prioritized tasks coming up next</p>
+                  </div>
+                  <button class="button-quiet-sm" type="button" data-view="tasks">View all tasks</button>
+                </div>
+                <div class="card-content" id="dashboard-upcoming-deadlines">
+                  <p class="empty-state-p">No pending deadlines. Great job!</p>
+                </div>
+              </section>
+
+              <!-- Weekly Study Activity Chart -->
+              <section class="card-panel">
+                <div class="card-header">
+                  <div>
+                    <h2 class="card-title">Weekly Study Activity</h2>
+                    <p class="card-subtitle">Hours scheduled and completed across the week</p>
+                  </div>
+                </div>
+                <div class="chart-container" id="dash-chart-container">
+                  <div class="bar-chart-wrap" id="dash-bar-chart">
+                    <!-- Populated dynamically via script.js -->
+                  </div>
+                </div>
+              </section>
+            </div>
+
+            <div class="dashboard-col-right">
+              <!-- Task Completion Progress -->
+              <section class="card-panel">
+                <div class="card-header">
+                  <h2 class="card-title">Task Completion Progress</h2>
+                </div>
+                <div class="progress-box">
+                  <div class="progress-ring-wrap">
+                    <svg class="progress-ring" width="130" height="130" viewBox="0 0 120 120">
+                      <circle class="ring-bg" cx="60" cy="60" r="50"/>
+                      <circle class="ring-fill" id="dashboard-ring-fill" cx="60" cy="60" r="50"/>
+                    </svg>
+                    <div class="progress-ring-text">
+                      <strong id="dashboard-progress-pct">0%</strong>
+                      <small>Completed</small>
+                    </div>
+                  </div>
+                  <div class="progress-stats-list">
+                    <div class="pstat-item"><span class="dot green-dot"></span><span>Completed:</span><strong id="pstat-done">0</strong></div>
+                    <div class="pstat-item"><span class="dot orange-dot"></span><span>Remaining:</span><strong id="pstat-pending">0</strong></div>
+                    <div class="pstat-item"><span class="dot purple-dot"></span><span>Total:</span><strong id="pstat-total">0</strong></div>
+                  </div>
+                </div>
+              </section>
+
+              <!-- Upcoming Study Sessions (Next 7 Days) -->
+              <section class="card-panel">
+                <div class="card-header">
+                  <h2 class="card-title">Upcoming Study Sessions</h2>
+                  <button class="button-quiet-sm" type="button" data-view="planner">Planner</button>
+                </div>
+                <div class="card-content" id="dashboard-upcoming-sessions">
+                  <p class="empty-state-p">No upcoming sessions. Plan your next focus block!</p>
+                </div>
+              </section>
+
+            </div>
+          </div>
+        </section>
+
+        <!-- VIEW: MY TASKS -->
+        <section class="view-panel" id="view-tasks" data-panel="tasks">
+          <div class="view-header">
+            <div>
+              <h2 class="view-title">My Tasks</h2>
+              <p class="view-subtitle">Organize, prioritize and track your academic tasks</p>
+            </div>
+            <button class="action-btn-primary" id="btn-tasks-new" type="button">+ New Task</button>
+          </div>
+
+          <!-- Controls: Filter tabs & search -->
+          <div class="toolbar-card">
+            <div class="filter-pills" id="task-filter-pills">
+              <button class="filter-pill active" type="button" data-task-filter="all">All</button>
+              <button class="filter-pill" type="button" data-task-filter="pending">Pending</button>
+              <button class="filter-pill" type="button" data-task-filter="completed">Completed</button>
+              <button class="filter-pill" type="button" data-task-filter="high">High Priority</button>
+            </div>
+            <div class="search-input-wrap">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+              <input class="search-input" id="tasks-search-input" type="search" placeholder="Search tasks by title, course, or description…">
+            </div>
+          </div>
+
+          <div class="card-panel tasks-table-panel">
+            <div class="tasks-list" id="tasks-container">
+              <!-- Populated by script.js -->
+            </div>
+          </div>
+        </section>
+
+        <!-- VIEW: ASSIGNMENTS -->
+        <section class="view-panel" id="view-assignments" data-panel="assignments">
+          <div class="view-header">
+            <div>
+              <h2 class="view-title">Assignments &amp; Coursework</h2>
+              <p class="view-subtitle">Course-based assignments with due dates and countdowns</p>
+            </div>
+            <button class="action-btn-primary" id="btn-assignments-new" type="button">+ Add Assignment</button>
+          </div>
+
+          <div class="assignments-category-bar" id="assignments-category-bar">
+            <!-- Dynamic course pills populated from user tasks -->
+          </div>
+
+          <div class="assignments-grid" id="assignments-grid">
+            <!-- Populated by script.js -->
+          </div>
+        </section>
+
+        <!-- VIEW: STUDY PLANNER -->
+        <section class="view-panel" id="view-planner" data-panel="planner">
+          <div class="view-header">
+            <div>
+              <h2 class="view-title">Study Planner &amp; Sessions</h2>
+              <p class="view-subtitle">Schedule focused study sessions with automatic alarms &amp; reminders</p>
+            </div>
+            <button class="action-btn-primary" id="btn-planner-new-session" type="button">+ Schedule Session</button>
+          </div>
+
+          <div class="toolbar-card">
+            <div class="filter-pills" id="session-filter-pills">
+              <button class="filter-pill active" type="button" data-session-filter="all">All Sessions</button>
+              <button class="filter-pill" type="button" data-session-filter="today">Today</button>
+              <button class="filter-pill" type="button" data-session-filter="upcoming">Upcoming</button>
+              <button class="filter-pill" type="button" data-session-filter="completed">Completed</button>
+            </div>
+          </div>
+
+          <div class="sessions-grid" id="planner-sessions-container">
+            <!-- Populated by script.js -->
+          </div>
+        </section>
+
+        <!-- VIEW: CALENDAR -->
+        <section class="view-panel" id="view-calendar" data-panel="calendar">
+          <div class="view-header">
+            <div>
+              <h2 class="view-title">Study Calendar</h2>
+              <p class="view-subtitle">Visual timeline of scheduled study sessions and exams</p>
+            </div>
+            <button class="action-btn-primary" id="btn-cal-new-session" type="button">+ New Session</button>
+          </div>
+
+          <div class="calendar-card">
+            <!-- Calendar Navigation Bar -->
+            <div class="calendar-controls">
+              <div class="cal-nav-group">
+                <button class="icon-circle-btn" id="cal-prev" type="button" aria-label="Previous Month">
+                  <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+                </button>
+                <button class="button-quiet-sm" id="cal-today" type="button">Today</button>
+                <button class="icon-circle-btn" id="cal-next" type="button" aria-label="Next Month">
+                  <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+                </button>
+                <h3 class="calendar-month-title" id="cal-month-title">November 2026</h3>
+              </div>
+
+              <div class="cal-view-modes">
+                <button class="view-mode-pill active" id="btn-cal-mode-month" type="button" aria-pressed="true">Month</button>
+                <button class="view-mode-pill" id="btn-cal-mode-week" type="button" aria-pressed="false">Week</button>
+                <button class="view-mode-pill" id="btn-cal-mode-day" type="button" aria-pressed="false">Day</button>
+              </div>
+            </div>
+
+            <!-- Calendar Grid -->
+            <div class="calendar-grid-wrapper" id="calendar-grid-wrapper">
+              <!-- Populated by script.js -->
+            </div>
+          </div>
+        </section>
+
+        <!-- VIEW: PROGRESS -->
+        <section class="view-panel" id="view-progress" data-panel="progress">
+          <div class="view-header">
+            <div>
+              <h2 class="view-title">Productivity &amp; Study Progress</h2>
+              <p class="view-subtitle">Detailed breakdown of study performance and completion trends</p>
+            </div>
+          </div>
+
+          <div class="progress-overview-grid">
+            <div class="card-panel">
+              <h3 class="card-title">Study Hours by Subject</h3>
+              <p class="card-subtitle">Hours dedicated to each topic</p>
+              <div class="subject-bars" id="progress-subject-bars">
+                <!-- Populated dynamically -->
+              </div>
+            </div>
+
+            <div class="card-panel">
+              <h3 class="card-title">Category Distribution</h3>
+              <p class="card-subtitle">Tasks completed by course</p>
+              <div class="category-distribution" id="progress-cat-dist">
+                <!-- Populated dynamically -->
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- VIEW: NOTIFICATIONS -->
+        <section class="view-panel" id="view-notifications" data-panel="notifications">
+          <div class="view-header">
+            <div>
+              <h2 class="view-title">Notifications &amp; Reminders</h2>
+              <p class="view-subtitle">Study session alerts, assignment deadlines, and overdue tasks</p>
+            </div>
+            <div class="header-action-group">
+              <button class="button-quiet-sm" id="btn-req-browser-notif" type="button">🔔 Enable Browser Alerts</button>
+              <button class="action-btn-primary" id="btn-notif-mark-all" type="button">Mark All as Read</button>
+            </div>
+          </div>
+
+          <div class="card-panel">
+            <div class="notifications-full-list" id="notifications-full-list">
+              <!-- Populated by script.js -->
+            </div>
+          </div>
+        </section>
+
+        <!-- VIEW: SETTINGS -->
+        <section class="view-panel" id="view-settings" data-panel="settings">
+          <div class="view-header">
+            <div>
+              <h2 class="view-title">Profile &amp; Settings</h2>
+              <p class="view-subtitle">Manage your personal information, notification preferences &amp; security</p>
+            </div>
+          </div>
+
+          <div class="settings-layout">
+            <div class="settings-nav-tabs" id="settings-nav-tabs">
+              <button class="settings-nav-btn active" type="button" data-stab="profile">Profile Information</button>
+              <button class="settings-nav-btn" type="button" data-stab="security">Password &amp; Security</button>
+              <button class="settings-nav-btn" type="button" data-stab="notifications">Notification Preferences</button>
+              <button class="settings-nav-btn" type="button" data-stab="appearance">Appearance &amp; Theme</button>
+            </div>
+
+            <div class="settings-tab-content">
+              <!-- Tab: Profile Information -->
+              <div class="settings-pane active" id="spane-profile">
+                <div class="card-panel">
+                  <h3 class="card-title">Personal Profile</h3>
+                  <p class="card-subtitle">Update your personal account details</p>
+                  <form class="settings-form" id="profile-form">
+                    <div class="form-group">
+                      <label class="form-label" for="profile-name">Full Name</label>
+                      <input class="form-input" id="profile-name" type="text" required minlength="2" maxlength="100">
+                    </div>
+                    <div class="form-group">
+                      <label class="form-label" for="profile-email">Email Address (Registered)</label>
+                      <input class="form-input" id="profile-email" type="email" disabled>
+                      <small class="form-hint">Email address is permanently linked to your student credentials.</small>
+                    </div>
+                    <div class="form-group">
+                      <label class="form-label" for="profile-phone">Phone Number</label>
+                      <input class="form-input" id="profile-phone" type="tel" required>
+                    </div>
+                    <div class="form-actions-right">
+                      <button class="action-btn-primary" id="btn-save-profile" type="submit">Save Changes</button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+
+              <!-- Tab: Security -->
+              <div class="settings-pane" id="spane-security">
+                <div class="card-panel">
+                  <h3 class="card-title">Change Password</h3>
+                  <p class="card-subtitle">Ensure your account is protected with a strong password</p>
+                  <form class="settings-form" id="password-form">
+                    <div class="form-group">
+                      <label class="form-label" for="pwd-current">Current Password</label>
+                      <input class="form-input" id="pwd-current" type="password" required>
+                    </div>
+                    <div class="form-group">
+                      <label class="form-label" for="pwd-new">New Password</label>
+                      <input class="form-input" id="pwd-new" type="password" required minlength="8">
+                      <small class="form-hint">Must contain at least 8 characters with uppercase, lowercase, number, and symbol.</small>
+                    </div>
+                    <div class="form-group">
+                      <label class="form-label" for="pwd-confirm">Confirm New Password</label>
+                      <input class="form-input" id="pwd-confirm" type="password" required minlength="8">
+                    </div>
+                    <div class="form-actions-right">
+                      <button class="action-btn-primary" id="btn-change-pwd" type="submit">Update Password</button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+
+              <!-- Tab: Notification Preferences -->
+              <div class="settings-pane" id="spane-notifications">
+                <div class="card-panel">
+                  <h3 class="card-title">Reminders &amp; Alarms</h3>
+                  <p class="card-subtitle">Configure session reminder intervals and alarm sounds</p>
+                  <form class="settings-form" id="notif-settings-form">
+                    <div class="toggle-row">
+                      <div class="toggle-text">
+                        <strong>Study Session Notifications</strong>
+                        <span>Receive notifications before and when study sessions start</span>
+                      </div>
+                      <input class="toggle-switch" id="toggle-notif-enabled" type="checkbox" checked>
+                    </div>
+
+                    <div class="toggle-row">
+                      <div class="toggle-text">
+                        <strong>Audio Chime &amp; Alarm</strong>
+                        <span>Play pleasant chime alarm when a scheduled study session begins</span>
+                      </div>
+                      <input class="toggle-switch" id="toggle-sound-enabled" type="checkbox" checked>
+                    </div>
+
+                    <div class="toggle-row">
+                      <div class="toggle-text">
+                        <strong>Daily Study Overview</strong>
+                        <span>Receive daily morning reminder of scheduled sessions &amp; deadlines</span>
+                      </div>
+                      <input class="toggle-switch" id="toggle-daily-enabled" type="checkbox" checked>
+                    </div>
+
+                    <div class="form-group mt-16">
+                      <label class="form-label" for="select-reminder-interval">Default Session Reminder Interval</label>
+                      <select class="form-input" id="select-reminder-interval">
+                        <option value="5">5 minutes before start</option>
+                        <option value="10" selected>10 minutes before start</option>
+                        <option value="15">15 minutes before start</option>
+                        <option value="30">30 minutes before start</option>
+                        <option value="60">1 hour before start</option>
+                      </select>
+                    </div>
+
+                    <div class="form-actions-right">
+                      <button class="action-btn-primary" id="btn-save-notif-settings" type="submit">Save Preferences</button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+
+              <!-- Tab: Appearance & Theme -->
+              <div class="settings-pane" id="spane-appearance">
+                <div class="card-panel">
+                  <h3 class="card-title">Appearance &amp; Theme</h3>
+                  <p class="card-subtitle">Choose your preferred workspace aesthetic</p>
+                  <div class="theme-picker">
+                    <button class="theme-card active" type="button" data-theme="lavender">
+                      <div class="theme-preview lavender-preview"></div>
+                      <strong>Soft Lavender</strong>
+                      <small>Signature StudyFlow purple &amp; soft lavender accent</small>
+                    </button>
+                    <button class="theme-card" type="button" data-theme="blue">
+                      <div class="theme-preview blue-preview"></div>
+                      <strong>Ocean Indigo</strong>
+                      <small>Cool blue and indigo focus palette</small>
+                    </button>
+                    <button class="theme-card" type="button" data-theme="minimal">
+                      <div class="theme-preview minimal-preview"></div>
+                      <strong>Minimal Clean</strong>
+                      <small>High contrast crisp monochrome aesthetic</small>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+  </div>
+
+  <!-- DIALOG: TASK CREATE/EDIT MODAL -->
+  <dialog class="app-dialog" id="task-dialog">
+    <div class="dialog-card">
+      <div class="dialog-header">
+        <h3 class="dialog-title" id="task-dialog-title">Add New Task</h3>
+        <button class="icon-circle-btn" id="btn-close-task-dialog" type="button" aria-label="Close dialog">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+      <form class="dialog-form" id="task-form">
+        <div class="form-group">
+          <label class="form-label" for="task-title">Task Title *</label>
+          <input class="form-input" id="task-title" type="text" required placeholder="e.g. Calculus Problem Set 4" maxlength="120">
+        </div>
+        <div class="form-row-2">
+          <div class="form-group">
+            <label class="form-label" for="task-category">Subject / Course *</label>
+            <input class="form-input" id="task-category" type="text" required placeholder="e.g. Mathematics" maxlength="60">
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="task-priority">Priority *</label>
+            <select class="form-input" id="task-priority" required>
+              <option value="HIGH">High Priority</option>
+              <option value="MEDIUM" selected>Medium Priority</option>
+              <option value="LOW">Low Priority</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="task-due-date">Due Date</label>
+          <input class="form-input" id="task-due-date" type="date">
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="task-desc">Description (Optional)</label>
+          <textarea class="form-input" id="task-desc" rows="3" placeholder="Add study notes, textbook page numbers, or submission instructions…" maxlength="2000"></textarea>
+        </div>
+        <div class="dialog-actions">
+          <button class="button-quiet" id="btn-cancel-task" type="button">Cancel</button>
+          <button class="action-btn-primary" id="btn-submit-task" type="submit">Save Task</button>
+        </div>
+      </form>
+    </div>
+  </dialog>
+
+  <!-- DIALOG: STUDY SESSION CREATE/EDIT MODAL -->
+  <dialog class="app-dialog" id="session-dialog">
+    <div class="dialog-card">
+      <div class="dialog-header">
+        <h3 class="dialog-title" id="session-dialog-title">Schedule Study Session</h3>
+        <button class="icon-circle-btn" id="btn-close-session-dialog" type="button" aria-label="Close dialog">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+      <form class="dialog-form" id="session-form">
+        <div class="form-row-2">
+          <div class="form-group">
+            <label class="form-label" for="session-subject">Subject *</label>
+            <input class="form-input" id="session-subject" type="text" required placeholder="e.g. Java Programming" maxlength="100">
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="session-topic">Topic *</label>
+            <input class="form-input" id="session-topic" type="text" required placeholder="e.g. Arrays and Strings" maxlength="150">
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="session-date">Date *</label>
+          <input class="form-input" id="session-date" type="date" required>
+        </div>
+        <div class="form-row-2">
+          <div class="form-group">
+            <label class="form-label" for="session-start-time">Start Time *</label>
+            <input class="form-input" id="session-start-time" type="time" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="session-end-time">End Time *</label>
+            <input class="form-input" id="session-end-time" type="time" required>
+          </div>
+        </div>
+        <div class="form-row-2">
+          <div class="form-group">
+            <label class="form-label" for="session-reminder-mins">Reminder Time</label>
+            <select class="form-input" id="session-reminder-mins">
+              <option value="5">5 minutes before</option>
+              <option value="10" selected>10 minutes before</option>
+              <option value="15">15 minutes before</option>
+              <option value="30">30 minutes before</option>
+              <option value="60">1 hour before</option>
+            </select>
+          </div>
+          <div class="form-group flex-center-vertical">
+            <label class="checkbox-label" for="session-reminder-enabled">
+              <input type="checkbox" id="session-reminder-enabled" checked>
+              <span>Enable Reminder Alarm</span>
+            </label>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="session-desc">Description / Goals (Optional)</label>
+          <textarea class="form-input" id="session-desc" rows="2" placeholder="Key topics to review, exercise sets, or target chapters…" maxlength="2000"></textarea>
+        </div>
+        <div class="dialog-actions">
+          <button class="button-quiet" id="btn-cancel-session" type="button">Cancel</button>
+          <button class="action-btn-primary" id="btn-submit-session" type="submit">Schedule Session</button>
+        </div>
+      </form>
+    </div>
+  </dialog>
+
+  <!-- ALARM / STUDY NOTIFICATION MODAL -->
+  <dialog class="app-dialog alarm-dialog" id="alarm-dialog">
+    <div class="alarm-card">
+      <div class="alarm-icon-ring">
+        <svg viewBox="0 0 24 24" width="36" height="36" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/><line x1="4" y1="4" x2="20" y2="20"/></svg>
+      </div>
+      <h3 class="alarm-title" id="alarm-title">Study Session Starting!</h3>
+      <p class="alarm-subject" id="alarm-subject">Java Programming</p>
+      <p class="alarm-topic" id="alarm-topic">Arrays and Strings</p>
+      <p class="alarm-time" id="alarm-time">6:00 PM – 7:00 PM</p>
+      <div class="alarm-actions">
+        <button class="action-btn-primary full-width" id="btn-alarm-start" type="button">Start Studying Now 🚀</button>
+        <button class="button-quiet full-width" id="btn-alarm-dismiss" type="button">Dismiss</button>
+      </div>
+    </div>
+  </dialog>
+</body>
+</html>
